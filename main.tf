@@ -18,13 +18,18 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   network_interface_ids = [azurerm_network_interface.vm_nic[count.index].id]
   vm_size               = "Standard_DS2_v2"
 
-  storage_image_reference {
+  admin_username      = "aryan"
+  admin_password = "Aryan@6387402913"
+  disable_password_authentication = false
+
+  
+
+  source_image_reference {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts"
     version   = "latest"
   }
-
   storage_os_disk {
     name              = "osdisk-${count.index}"
     caching           = "ReadWrite"
@@ -32,16 +37,8 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
     managed_disk_type = "Premium_LRS"
   }
 
-  os_profile {
-    computer_name  = "linux-vm-${count.index}"
-    admin_username = "aryan"
-    admin_password = "Aryan@6387402913"
-  }
+ 
   
-
-  os_profile_linux_config {
-    disable_password_authentication = false
-  }
 provisioner "local-exec" {
     command = <<EOT
       echo '${azurerm_linux_virtual_machine.main.public_ip_address} ansible_connection=ssh ansible_user=aryan' >> inventory
