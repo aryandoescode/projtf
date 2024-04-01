@@ -75,7 +75,7 @@ resource "azurerm_network_interface" "vm_nic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.vm_public_ip[count.index].id
   }
-  network_security_group_id = azurerm_network_security_group.vm_nsg.id
+  
 }
 resource "azurerm_subnet_network_security_group_association" "example" {
   subnet_id                 = azurerm_subnet.subnet1.id
