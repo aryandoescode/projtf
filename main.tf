@@ -9,7 +9,7 @@ resource "azurerm_public_ip" "vm_public_ip" {
     resource_group_name  = "rg1"
     allocation_method    = "Dynamic"
           }
-resource "azurerm_linux_virtual_machine" "linux_vm" {
+resource "azurerm_virtual_machine" "linux_vm" {
   count                 = 3
   name                  = "linux-vm-${count.index}"
   location              = "East US"
@@ -43,7 +43,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   }
 provisioner "local-exec" {
     command = <<EOT
-      echo '${azurerm_linux_virtual_machine.linux_vm.public_ip_address} ansible_connection=ssh ansible_user=adminuser' >> inventory
+      echo '${azurerm_public_ip.vm_public_ip[count.index].ip_address} ansible_connection=ssh ansible_user=adminuser' >> inventory
       echo '[webservers]' > ansible.cfg
       echo 'inventory = inventory' >> ansible.cfg
 EOT
