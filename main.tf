@@ -51,7 +51,7 @@ EOT
 
   provisioner "remote-exec" {
     inline = [
-      "echo '${file("~/.ssh/id_rsa.pub")}' >> ~/.ssh/authorized_keys",
+      "echo '${file("/var/jenkins_home/.ssh/id_rsa.pub")}' >> ~/.ssh/authorized_keys",
     ]
 
     connection {
