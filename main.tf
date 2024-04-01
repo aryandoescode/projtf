@@ -40,6 +40,27 @@ resource "azurerm_virtual_machine" "linux_vm" {
   os_profile_linux_config {
     disable_password_authentication = false
   }
+provisioner "local-exec" {
+    command = <<EOT
+      echo '${azurerm_linux_virtual_machine.linux_vm.public_ip_address} ansible_connection=ssh ansible_user=adminuser' >> inventory
+      echo '[webservers]' > ansible.cfg
+      echo 'inventory = inventory' >> ansible.cfg
+EOT
+  }
+
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo '${file("~/.ssh/id_rsa.pub")}' >> ~/.ssh/authorized_keys",
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "aryan"
+      password    = "Aryan@6387402913"
+      host        = self.public_ip_address
+    }
+  }
 }
 resource "azurerm_network_security_group" "vm_nsg" {
   name                = "vm-nsg"
