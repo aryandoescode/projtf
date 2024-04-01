@@ -34,7 +34,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
     name              = "osdisk-${count.index}"
     caching           = "ReadWrite"
  
-    storage_account_type = "Premium_LRS"
+    storage_account_type = "Standard_LRS"
   }
 
  
