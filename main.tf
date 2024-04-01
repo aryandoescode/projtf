@@ -42,7 +42,7 @@ resource "azurerm_virtual_machine" "linux_vm" {
   }
 provisioner "local-exec" {
     command = <<EOT
-      echo '${azurerm_linux_virtual_machine.linux_vm.public_ip_address} ansible_connection=ssh ansible_user=adminuser' >> inventory
+      echo '${azurerm_virtual_machine.linux_vm.public_ip_address} ansible_connection=ssh ansible_user=adminuser' >> inventory
       echo '[webservers]' > ansible.cfg
       echo 'inventory = inventory' >> ansible.cfg
 EOT
