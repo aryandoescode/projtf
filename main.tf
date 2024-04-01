@@ -16,7 +16,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   location              = "East US"
   resource_group_name   = "rg1"
   network_interface_ids = [azurerm_network_interface.vm_nic[count.index].id]
-  vm_size               = "Standard_DS2_v2"
+  
 
   admin_username      = "aryan"
   admin_password = "Aryan@6387402913"
@@ -33,8 +33,8 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   os_disk {
     name              = "osdisk-${count.index}"
     caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Premium_LRS"
+ 
+    storage_account_type = "Premium_LRS"
   }
 
  
