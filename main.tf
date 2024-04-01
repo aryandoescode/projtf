@@ -1,6 +1,12 @@
 provider "azurerm" {
   features {}
 }
+resource "azurerm_subnet" "subnet1" {
+  name                 = "frontend"
+  resource_group_name  = "rg1"
+  virtual_network_name = "master-vnet"
+  address_prefixes     = ["10.0.3.0/24"]
+}
 resource "azurerm_public_ip" "vm_public_ip" {
   count                = 3
     name                 = "vm-public-ip-${count.index}"
@@ -71,3 +77,8 @@ resource "azurerm_network_interface" "vm_nic" {
   }
   network_security_group_id = azurerm_network_security_group.vm_nsg.id
 }
+resource "azurerm_subnet_network_security_group_association" "example" {
+  subnet_id                 = azurerm_subnet.subnet1.id
+  network_security_group_id = azurerm_network_security_group.vm_nsg.id
+}
+
