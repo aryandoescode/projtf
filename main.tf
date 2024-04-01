@@ -30,7 +30,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
     sku       = "22_04-lts"
     version   = "latest"
   }
-  storage_os_disk {
+  os_disk {
     name              = "osdisk-${count.index}"
     caching           = "ReadWrite"
     create_option     = "FromImage"
