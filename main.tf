@@ -36,6 +36,9 @@ resource "azurerm_virtual_machine" "linux_vm" {
     admin_username = "aryan"
     admin_password = "Aryan@6387402913"
   }
+  network_interface_ids = [
+    azurerm_network_interface.vm_nic.id,
+  ]
 
   os_profile_linux_config {
     disable_password_authentication = false
