@@ -39,27 +39,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
 
  
   
-provisioner "local-exec" {
-    command = <<EOT
-      echo '${self.public_ip_address} ansible_connection=ssh ansible_user=aryan' >> inventory
-      echo '[webservers]' > ansible.cfg
-      echo 'inventory = inventory' >> ansible.cfg
-EOT
-  }
 
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo '${file("/var/jenkins_home/.ssh/id_rsa.pub")}' >> ~/.ssh/authorized_keys",
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = "aryan"
-      password    = "Aryan@6387402913"
-      host        = self.public_ip_address
-    }
-  }
 }
 resource "azurerm_network_security_group" "vm_nsg" {
   name                = "vm-nsg"
